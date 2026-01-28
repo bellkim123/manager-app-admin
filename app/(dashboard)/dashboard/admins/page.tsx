@@ -11,6 +11,21 @@ import {
   Calendar,
   Check,
   X,
+  Settings2,
+  Home,
+  Store,
+  Users,
+  ShoppingCart,
+  BarChart3,
+  FileText,
+  Megaphone,
+  Ticket,
+  CreditCard,
+  UserCog,
+  Bell,
+  Settings,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { Header } from '@/components/layouts/header';
 import { Button } from '@/components/ui/button';
@@ -25,6 +40,29 @@ import {
 import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
+// 메뉴 목록 정의
+const menuItems = [
+  { id: 'home', name: '홈', icon: Home, category: 'main' },
+  { id: 'stores', name: '매장 관리', icon: Store, category: 'main' },
+  { id: 'owners', name: '점주 관리', icon: Users, category: 'main' },
+  { id: 'orders', name: '주문 내역', icon: ShoppingCart, category: 'main' },
+  { id: 'analytics', name: '매출 통계', icon: BarChart3, category: 'main' },
+  { id: 'contents', name: '콘텐츠 관리', icon: FileText, category: 'main' },
+  { id: 'campaigns', name: '캠페인', icon: Megaphone, category: 'marketing' },
+  { id: 'coupons', name: '쿠폰 관리', icon: Ticket, category: 'marketing' },
+  { id: 'prepaid-cards', name: '선불카드', icon: CreditCard, category: 'marketing' },
+  { id: 'admins', name: '어드민 계정', icon: UserCog, category: 'admin' },
+  { id: 'notifications', name: '알림', icon: Bell, category: 'system' },
+  { id: 'settings', name: '설정', icon: Settings, category: 'system' },
+];
+
+const categoryNames = {
+  main: '기본 메뉴',
+  marketing: '마케팅',
+  admin: '관리',
+  system: '시스템',
+};
+
 const admins = [
   {
     id: '1',
@@ -35,6 +73,7 @@ const admins = [
     status: 'active' as const,
     lastLogin: '2024-01-28 14:32',
     createdAt: '2023-01-15',
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'admins', 'notifications', 'settings'],
   },
   {
     id: '2',
@@ -45,6 +84,7 @@ const admins = [
     status: 'active' as const,
     lastLogin: '2024-01-28 10:15',
     createdAt: '2023-03-20',
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'notifications', 'settings'],
   },
   {
     id: '3',
@@ -55,6 +95,7 @@ const admins = [
     status: 'active' as const,
     lastLogin: '2024-01-27 18:45',
     createdAt: '2023-05-10',
+    menuPermissions: ['home', 'stores', 'orders', 'analytics', 'notifications'],
   },
   {
     id: '4',
@@ -65,6 +106,7 @@ const admins = [
     status: 'inactive' as const,
     lastLogin: '2024-01-20 09:00',
     createdAt: '2023-08-05',
+    menuPermissions: ['home', 'analytics'],
   },
   {
     id: '5',
@@ -75,6 +117,7 @@ const admins = [
     status: 'pending' as const,
     lastLogin: '-',
     createdAt: '2024-01-25',
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'notifications', 'settings'],
   },
 ];
 
@@ -111,6 +154,10 @@ export default function AdminsPage() {
   const { isOpen, isHovered } = useSidebarStore();
   const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
+  const [expandedAdminId, setExpandedAdminId] = useState<string | null>(null);
+  const [adminPermissions, setAdminPermissions] = useState<Record<string, string[]>>(
+    admins.reduce((acc, admin) => ({ ...acc, [admin.id]: admin.menuPermissions }), {})
+  );
 
   const filteredAdmins = admins.filter(
     (admin) =>
@@ -118,6 +165,36 @@ export default function AdminsPage() {
       admin.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       admin.brandCode.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const toggleAdminExpand = (adminId: string) => {
+    setExpandedAdminId(expandedAdminId === adminId ? null : adminId);
+  };
+
+  const toggleMenuPermission = (adminId: string, menuId: string) => {
+    setAdminPermissions((prev) => {
+      const currentPermissions = prev[adminId] || [];
+      if (currentPermissions.includes(menuId)) {
+        return { ...prev, [adminId]: currentPermissions.filter((id) => id !== menuId) };
+      }
+      return { ...prev, [adminId]: [...currentPermissions, menuId] };
+    });
+  };
+
+  const toggleAllCategory = (adminId: string, category: string) => {
+    const categoryMenuIds = menuItems
+      .filter((item) => item.category === category)
+      .map((item) => item.id);
+    const currentPermissions = adminPermissions[adminId] || [];
+    const allSelected = categoryMenuIds.every((id) => currentPermissions.includes(id));
+
+    setAdminPermissions((prev) => {
+      if (allSelected) {
+        return { ...prev, [adminId]: currentPermissions.filter((id) => !categoryMenuIds.includes(id)) };
+      }
+      const newPermissions = [...new Set([...currentPermissions, ...categoryMenuIds])];
+      return { ...prev, [adminId]: newPermissions };
+    });
+  };
 
   return (
     <>
@@ -132,7 +209,7 @@ export default function AdminsPage() {
           {/* Header */}
           <div className="mb-6">
             <p className="text-muted-foreground">
-              소복소복 어드민 시스템의 관리자 계정을 관리합니다.
+              소복소복 어드민 시스템의 계정과 메뉴 권한을 관리합니다.
             </p>
           </div>
 
@@ -164,6 +241,7 @@ export default function AdminsPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b bg-muted/50">
+                    <th className="w-8 px-4 py-3"></th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
                       관리자
                     </th>
@@ -174,13 +252,13 @@ export default function AdminsPage() {
                       브랜드 코드
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
+                      메뉴 권한
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
                       상태
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
                       마지막 로그인
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
-                      생성일
                     </th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">
                       액션
@@ -191,107 +269,249 @@ export default function AdminsPage() {
                   {filteredAdmins.map((admin) => {
                     const role = roleConfig[admin.role];
                     const status = statusConfig[admin.status];
+                    const isExpanded = expandedAdminId === admin.id;
+                    const permissions = adminPermissions[admin.id] || [];
+
                     return (
-                      <tr
-                        key={admin.id}
-                        className="border-b last:border-0 hover:bg-muted/30"
-                      >
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage src="" />
-                              <AvatarFallback className="text-xs">
-                                {admin.name.charAt(0)}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <p className="font-medium">{admin.name}</p>
-                              <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                <Mail className="h-3 w-3" />
-                                {admin.email}
-                              </p>
+                      <>
+                        <tr
+                          key={admin.id}
+                          className={cn(
+                            'border-b hover:bg-muted/30',
+                            isExpanded && 'bg-muted/20'
+                          )}
+                        >
+                          <td className="px-4 py-3">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={() => toggleAdminExpand(admin.id)}
+                            >
+                              {isExpanded ? (
+                                <ChevronUp className="h-4 w-4" />
+                              ) : (
+                                <ChevronDown className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <Avatar className="h-8 w-8">
+                                <AvatarImage src="" />
+                                <AvatarFallback className="text-xs">
+                                  {admin.name.charAt(0)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <p className="font-medium">{admin.name}</p>
+                                <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                  <Mail className="h-3 w-3" />
+                                  {admin.email}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <Shield className="h-3.5 w-3.5 text-muted-foreground" />
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              <Shield className="h-3.5 w-3.5 text-muted-foreground" />
+                              <span
+                                className={cn(
+                                  'rounded-full px-2 py-0.5 text-xs font-medium',
+                                  role.className
+                                )}
+                              >
+                                {role.label}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+                              {admin.brandCode}
+                            </code>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              <Settings2 className="h-3.5 w-3.5 text-muted-foreground" />
+                              <span className="text-sm">
+                                {permissions.length} / {menuItems.length} 메뉴
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
                             <span
                               className={cn(
                                 'rounded-full px-2 py-0.5 text-xs font-medium',
-                                role.className
+                                status.className
                               )}
                             >
-                              {role.label}
+                              {status.label}
                             </span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
-                            {admin.brandCode}
-                          </code>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span
-                            className={cn(
-                              'rounded-full px-2 py-0.5 text-xs font-medium',
-                              status.className
-                            )}
-                          >
-                            {status.label}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-muted-foreground">
-                          {admin.lastLogin}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {admin.createdAt}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            {admin.status === 'pending' && (
-                              <>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
-                                >
-                                  <Check className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                >
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              </>
-                            )}
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                >
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>상세 보기</DropdownMenuItem>
-                                <DropdownMenuItem>권한 수정</DropdownMenuItem>
-                                <DropdownMenuItem>비밀번호 초기화</DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive">
-                                  계정 삭제
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">
+                            {admin.lastLogin}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <div className="flex items-center justify-end gap-1">
+                              {admin.status === 'pending' && (
+                                <>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
+                                  >
+                                    <Check className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                </>
+                              )}
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8"
+                                  >
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem>상세 보기</DropdownMenuItem>
+                                  <DropdownMenuItem>권한 수정</DropdownMenuItem>
+                                  <DropdownMenuItem>비밀번호 초기화</DropdownMenuItem>
+                                  <DropdownMenuItem className="text-destructive">
+                                    계정 삭제
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </td>
+                        </tr>
+
+                        {/* Menu Permission Panel */}
+                        {isExpanded && (
+                          <tr key={`${admin.id}-permissions`}>
+                            <td colSpan={8} className="px-4 py-4 bg-muted/10">
+                              <div className="rounded-lg border bg-background p-4">
+                                <div className="flex items-center justify-between mb-4">
+                                  <h4 className="font-medium flex items-center gap-2">
+                                    <Settings2 className="h-4 w-4" />
+                                    메뉴 접근 권한 설정
+                                  </h4>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => setAdminPermissions((prev) => ({
+                                        ...prev,
+                                        [admin.id]: menuItems.map((item) => item.id),
+                                      }))}
+                                    >
+                                      전체 선택
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => setAdminPermissions((prev) => ({
+                                        ...prev,
+                                        [admin.id]: [],
+                                      }))}
+                                    >
+                                      전체 해제
+                                    </Button>
+                                  </div>
+                                </div>
+
+                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                  {Object.entries(categoryNames).map(([category, categoryName]) => {
+                                    const categoryMenus = menuItems.filter((item) => item.category === category);
+                                    const allSelected = categoryMenus.every((item) =>
+                                      permissions.includes(item.id)
+                                    );
+                                    const someSelected = categoryMenus.some((item) =>
+                                      permissions.includes(item.id)
+                                    );
+
+                                    return (
+                                      <div key={category} className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <span className="text-sm font-medium text-muted-foreground">
+                                            {categoryName}
+                                          </span>
+                                          <button
+                                            onClick={() => toggleAllCategory(admin.id, category)}
+                                            className={cn(
+                                              'h-4 w-4 rounded border flex items-center justify-center transition-colors',
+                                              allSelected
+                                                ? 'bg-primary border-primary'
+                                                : someSelected
+                                                ? 'bg-primary/50 border-primary/50'
+                                                : 'border-input hover:border-primary/50'
+                                            )}
+                                          >
+                                            {allSelected && <Check className="h-3 w-3 text-primary-foreground" />}
+                                            {someSelected && !allSelected && (
+                                              <div className="h-1.5 w-1.5 bg-primary-foreground rounded-sm" />
+                                            )}
+                                          </button>
+                                        </div>
+                                        <div className="space-y-1">
+                                          {categoryMenus.map((menu) => {
+                                            const Icon = menu.icon;
+                                            const isChecked = permissions.includes(menu.id);
+
+                                            return (
+                                              <label
+                                                key={menu.id}
+                                                className={cn(
+                                                  'flex items-center gap-2 rounded-md px-2 py-1.5 cursor-pointer transition-colors',
+                                                  isChecked
+                                                    ? 'bg-primary/10 text-primary'
+                                                    : 'hover:bg-muted'
+                                                )}
+                                              >
+                                                <button
+                                                  onClick={() => toggleMenuPermission(admin.id, menu.id)}
+                                                  className={cn(
+                                                    'h-4 w-4 rounded border flex items-center justify-center transition-colors',
+                                                    isChecked
+                                                      ? 'bg-primary border-primary'
+                                                      : 'border-input hover:border-primary/50'
+                                                  )}
+                                                >
+                                                  {isChecked && <Check className="h-3 w-3 text-primary-foreground" />}
+                                                </button>
+                                                <Icon className="h-3.5 w-3.5" />
+                                                <span className="text-sm">{menu.name}</span>
+                                              </label>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+
+                                <div className="mt-4 pt-4 border-t flex justify-end gap-2">
+                                  <Button variant="outline" size="sm" onClick={() => setExpandedAdminId(null)}>
+                                    취소
+                                  </Button>
+                                  <Button size="sm">
+                                    <Check className="mr-1 h-3 w-3" />
+                                    저장
+                                  </Button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </>
                     );
                   })}
                 </tbody>

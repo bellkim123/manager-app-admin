@@ -17,6 +17,9 @@ import {
   Bell,
   Search,
   UserCog,
+  Megaphone,
+  Ticket,
+  CreditCard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/lib/stores/sidebar-store';
@@ -39,6 +42,12 @@ const mainNavItems = [
   { title: '콘텐츠 관리', href: '/dashboard/contents', icon: FileText },
 ];
 
+const marketingNavItems = [
+  { title: '캠페인', href: '/dashboard/marketing/campaigns', icon: Megaphone },
+  { title: '쿠폰 관리', href: '/dashboard/marketing/coupons', icon: Ticket },
+  { title: '선불카드', href: '/dashboard/marketing/prepaid-cards', icon: CreditCard },
+];
+
 const adminNavItems = [
   { title: '어드민 계정', href: '/dashboard/admins', icon: UserCog },
 ];
@@ -53,6 +62,41 @@ export function Sidebar() {
   const { isOpen, isHovered, toggle, setHovered } = useSidebarStore();
 
   const showExpanded = isOpen || isHovered;
+
+  const renderNavItem = (item: { title: string; href: string; icon: React.ComponentType<{ className?: string }> }) => {
+    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+    const Icon = item.icon;
+
+    return (
+      <li key={item.href}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link
+              href={item.href}
+              className={cn(
+                'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+                'hover:bg-sidebar-accent',
+                isActive
+                  ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
+                  : 'text-sidebar-foreground/80',
+                !showExpanded && 'justify-center'
+              )}
+            >
+              <Icon className="h-4 w-4 shrink-0" />
+              {showExpanded && (
+                <span className="truncate">{item.title}</span>
+              )}
+            </Link>
+          </TooltipTrigger>
+          {!showExpanded && (
+            <TooltipContent side="right">
+              {item.title}
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </li>
+    );
+  };
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -116,41 +160,22 @@ export function Sidebar() {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-2 py-2 scrollbar-notion">
+          {/* Main Section */}
           <ul className="space-y-1">
-            {mainNavItems.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
+            {mainNavItems.map(renderNavItem)}
+          </ul>
 
-              return (
-                <li key={item.href}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-                          'hover:bg-sidebar-accent',
-                          isActive
-                            ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
-                            : 'text-sidebar-foreground/80',
-                          !showExpanded && 'justify-center'
-                        )}
-                      >
-                        <Icon className="h-4 w-4 shrink-0" />
-                        {showExpanded && (
-                          <span className="truncate">{item.title}</span>
-                        )}
-                      </Link>
-                    </TooltipTrigger>
-                    {!showExpanded && (
-                      <TooltipContent side="right">
-                        {item.title}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </li>
-              );
-            })}
+          {/* Marketing Section */}
+          {showExpanded && (
+            <div className="mt-4 mb-2 px-2">
+              <span className="text-xs font-medium text-muted-foreground">
+                마케팅
+              </span>
+            </div>
+          )}
+          {!showExpanded && <Separator className="my-2" />}
+          <ul className="space-y-1">
+            {marketingNavItems.map(renderNavItem)}
           </ul>
 
           {/* Admin Section */}
@@ -163,40 +188,7 @@ export function Sidebar() {
           )}
           {!showExpanded && <Separator className="my-2" />}
           <ul className="space-y-1">
-            {adminNavItems.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
-
-              return (
-                <li key={item.href}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-                          'hover:bg-sidebar-accent',
-                          isActive
-                            ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
-                            : 'text-sidebar-foreground/80',
-                          !showExpanded && 'justify-center'
-                        )}
-                      >
-                        <Icon className="h-4 w-4 shrink-0" />
-                        {showExpanded && (
-                          <span className="truncate">{item.title}</span>
-                        )}
-                      </Link>
-                    </TooltipTrigger>
-                    {!showExpanded && (
-                      <TooltipContent side="right">
-                        {item.title}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </li>
-              );
-            })}
+            {adminNavItems.map(renderNavItem)}
           </ul>
         </nav>
 
@@ -205,40 +197,7 @@ export function Sidebar() {
         {/* Bottom Navigation */}
         <div className="px-2 py-2">
           <ul className="space-y-1">
-            {bottomNavItems.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
-
-              return (
-                <li key={item.href}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-                          'hover:bg-sidebar-accent',
-                          isActive
-                            ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
-                            : 'text-sidebar-foreground/80',
-                          !showExpanded && 'justify-center'
-                        )}
-                      >
-                        <Icon className="h-4 w-4 shrink-0" />
-                        {showExpanded && (
-                          <span className="truncate">{item.title}</span>
-                        )}
-                      </Link>
-                    </TooltipTrigger>
-                    {!showExpanded && (
-                      <TooltipContent side="right">
-                        {item.title}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </li>
-              );
-            })}
+            {bottomNavItems.map(renderNavItem)}
           </ul>
         </div>
 
