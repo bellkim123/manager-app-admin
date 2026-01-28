@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ☕️ 커피 브랜드 어드민 대시보드
 
-## Getting Started
+본 프로젝트는 커피 브랜드의 점주용 앱을 관리하기 위한 내부 어드민 대시보드입니다. 운영팀 및 브랜드 관리자는 이 대시보드를 통해 매장 정보, 점주 계정, 주문 데이터, 공지사항 등을 통합적으로 관리할 수 있습니다.
 
-First, run the development server:
+## ✨ 주요 기능 (예정)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   **매장 관리**: 신규 매장 등록, 정보 수정, 상태 변경
+-   **점주 관리**: 점주 계정 생성 및 권한 관리
+-   **주문 데이터 조회**: 기간별, 매장별 주문 내역 조회 및 통계
+-   **콘텐츠 관리**: 점주 앱 내 공지사항 및 이벤트 배너 관리
+-   **대시보드**: 주요 지표(일 매출, 주문 수 등) 시각화
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ 기술 스택
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   **프레임워크**: [Next.js](https://nextjs.org/) (React 기반)
+-   **언어**: [TypeScript](https://www.typescriptlang.org/)
+-   **스타일링**: [Tailwind CSS](https://tailwindcss.com/)
+-   **UI 컴포넌트**: [shadcn/ui](https://ui.shadcn.com/)
+-   **패키지 매니저**: [npm](https://www.npmjs.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 시작하기
 
-## Learn More
+프로젝트를 로컬 환경에서 실행하는 방법입니다.
 
-To learn more about Next.js, take a look at the following resources:
+### 사전 요구사항
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   [Node.js](https://nodejs.org/ko/) v18.17.0 이상 버전이 설치되어 있어야 합니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 설치 및 실행
 
-## Deploy on Vercel
+1.  **프로젝트 클론:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    git clone <저장소_URL>
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2.  **프로젝트 디렉토리로 이동:**
+
+    ```bash
+    cd <프로젝트명>
+    ```
+
+3.  **의존성 패키지 설치:**
+
+    ```bash
+    npm install
+    ```
+
+4.  **개발 서버 실행:**
+
+    ```bash
+    npm run dev
+    ```
+
+5.  브라우저를 열고 [http://localhost:3000](http://localhost:3000)으로 접속하여 애플리케이션을 확인합니다.
+
+## 📜 사용 가능한 스크립트
+
+-   `npm run dev`: 개발 모드로 애플리케이션을 실행합니다.
+-   `npm run build`: 프로덕션용으로 애플리케이션을 빌드합니다.
+-   `npm run start`: 빌드된 프로덕션 서버를 시작합니다.
+-   `npm run lint`: ESLint를 사용하여 코드 스타일을 검사합니다.
