@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import {
   Plus,
   Search,
@@ -273,9 +273,8 @@ export default function AdminsPage() {
                     const permissions = adminPermissions[admin.id] || [];
 
                     return (
-                      <>
+                      <Fragment key={admin.id}>
                         <tr
-                          key={admin.id}
                           className={cn(
                             'border-b hover:bg-muted/30',
                             isExpanded && 'bg-muted/20'
@@ -396,7 +395,7 @@ export default function AdminsPage() {
 
                         {/* Menu Permission Panel */}
                         {isExpanded && (
-                          <tr key={`${admin.id}-permissions`}>
+                          <tr>
                             <td colSpan={8} className="px-4 py-4 bg-muted/10">
                               <div className="rounded-lg border bg-background p-4">
                                 <div className="flex items-center justify-between mb-4">
@@ -511,7 +510,7 @@ export default function AdminsPage() {
                             </td>
                           </tr>
                         )}
-                      </>
+                      </Fragment>
                     );
                   })}
                 </tbody>
