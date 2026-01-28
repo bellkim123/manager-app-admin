@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,10 +13,10 @@ import {
   FileText,
   Settings,
   LogOut,
-  Coffee,
   BarChart3,
   Bell,
   Search,
+  UserCog,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/lib/stores/sidebar-store';
@@ -36,6 +37,10 @@ const mainNavItems = [
   { title: '주문 내역', href: '/dashboard/orders', icon: ShoppingCart },
   { title: '매출 통계', href: '/dashboard/analytics', icon: BarChart3 },
   { title: '콘텐츠 관리', href: '/dashboard/contents', icon: FileText },
+];
+
+const adminNavItems = [
+  { title: '어드민 계정', href: '/dashboard/admins', icon: UserCog },
 ];
 
 const bottomNavItems = [
@@ -68,12 +73,16 @@ export function Sidebar() {
               !showExpanded && 'justify-center'
             )}
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary">
-              <Coffee className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <Image
+              src="/images/logo.png"
+              alt="소복소복"
+              width={32}
+              height={32}
+              className="shrink-0 rounded-md"
+            />
             {showExpanded && (
               <span className="truncate text-sm font-semibold">
-                커피 어드민
+                소복소복
               </span>
             )}
           </Link>
@@ -109,6 +118,52 @@ export function Sidebar() {
         <nav className="flex-1 overflow-y-auto px-2 py-2 scrollbar-notion">
           <ul className="space-y-1">
             {mainNavItems.map((item) => {
+              const isActive = pathname === item.href;
+              const Icon = item.icon;
+
+              return (
+                <li key={item.href}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+                          'hover:bg-sidebar-accent',
+                          isActive
+                            ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
+                            : 'text-sidebar-foreground/80',
+                          !showExpanded && 'justify-center'
+                        )}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        {showExpanded && (
+                          <span className="truncate">{item.title}</span>
+                        )}
+                      </Link>
+                    </TooltipTrigger>
+                    {!showExpanded && (
+                      <TooltipContent side="right">
+                        {item.title}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Admin Section */}
+          {showExpanded && (
+            <div className="mt-4 mb-2 px-2">
+              <span className="text-xs font-medium text-muted-foreground">
+                관리
+              </span>
+            </div>
+          )}
+          {!showExpanded && <Separator className="my-2" />}
+          <ul className="space-y-1">
+            {adminNavItems.map((item) => {
               const isActive = pathname === item.href;
               const Icon = item.icon;
 

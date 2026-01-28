@@ -1,62 +1,89 @@
-# ☕️ 커피 브랜드 어드민 대시보드
+# 소복소복 어드민 대시보드
 
-본 프로젝트는 커피 브랜드의 점주용 앱을 관리하기 위한 내부 어드민 대시보드입니다. 운영팀 및 브랜드 관리자는 이 대시보드를 통해 매장 정보, 점주 계정, 주문 데이터, 공지사항 등을 통합적으로 관리할 수 있습니다.
+소복소복 서비스의 다양한 브랜드를 관리하기 위한 범용 어드민 대시보드입니다. 운영팀 및 브랜드 관리자는 이 대시보드를 통해 매장 정보, 점주 계정, 주문 데이터, 공지사항 등을 통합적으로 관리할 수 있습니다.
 
-## ✨ 주요 기능 (예정)
+## 주요 기능
 
--   **매장 관리**: 신규 매장 등록, 정보 수정, 상태 변경
--   **점주 관리**: 점주 계정 생성 및 권한 관리
--   **주문 데이터 조회**: 기간별, 매장별 주문 내역 조회 및 통계
--   **콘텐츠 관리**: 점주 앱 내 공지사항 및 이벤트 배너 관리
--   **대시보드**: 주요 지표(일 매출, 주문 수 등) 시각화
+- **브랜드별 로그인**: 브랜드 코드를 통한 멀티 브랜드 지원
+- **매장 관리**: 신규 매장 등록, 정보 수정, 상태 변경
+- **점주 관리**: 점주 계정 생성 및 권한 관리
+- **주문 데이터 조회**: 기간별, 매장별 주문 내역 조회 및 통계
+- **콘텐츠 관리**: 점주 앱 내 공지사항 및 이벤트 배너 관리
+- **대시보드**: 주요 지표(일 매출, 주문 수 등) 시각화
+- **어드민 계정 관리**: 관리자 계정 생성 및 권한 설정
 
-## 🛠️ 기술 스택
+## 기술 스택
 
--   **프레임워크**: [Next.js](https://nextjs.org/) (React 기반)
--   **언어**: [TypeScript](https://www.typescriptlang.org/)
--   **스타일링**: [Tailwind CSS](https://tailwindcss.com/)
--   **UI 컴포넌트**: [shadcn/ui](https://ui.shadcn.com/)
--   **패키지 매니저**: [npm](https://www.npmjs.com/)
+- **프레임워크**: [Next.js 16](https://nextjs.org/) (App Router)
+- **React**: [React 19](https://react.dev/)
+- **언어**: [TypeScript](https://www.typescriptlang.org/)
+- **스타일링**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **UI 컴포넌트**: [shadcn/ui](https://ui.shadcn.com/)
+- **상태관리**: [Zustand](https://zustand-demo.pmnd.rs/)
+- **패키지 매니저**: npm
 
-## 🚀 시작하기
-
-프로젝트를 로컬 환경에서 실행하는 방법입니다.
+## 시작하기
 
 ### 사전 요구사항
 
--   [Node.js](https://nodejs.org/ko/) v18.17.0 이상 버전이 설치되어 있어야 합니다.
+- [Node.js](https://nodejs.org/ko/) v18.17.0 이상
 
 ### 설치 및 실행
 
-1.  **프로젝트 클론:**
+1. **프로젝트 클론:**
 
-    ```bash
-    git clone <저장소_URL>
-    ```
+   ```bash
+   git clone https://github.com/bellkim123/manager-app-admin.git
+   ```
 
-2.  **프로젝트 디렉토리로 이동:**
+2. **프로젝트 디렉토리로 이동:**
 
-    ```bash
-    cd <프로젝트명>
-    ```
+   ```bash
+   cd manager-app-admin
+   ```
 
-3.  **의존성 패키지 설치:**
+3. **의존성 패키지 설치:**
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-4.  **개발 서버 실행:**
+4. **환경 변수 설정:**
 
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   cp .env.example .env.local
+   ```
 
-5.  브라우저를 열고 [http://localhost:3000](http://localhost:3000)으로 접속하여 애플리케이션을 확인합니다.
+5. **개발 서버 실행:**
 
-## 📜 사용 가능한 스크립트
+   ```bash
+   npm run dev
+   ```
 
--   `npm run dev`: 개발 모드로 애플리케이션을 실행합니다.
--   `npm run build`: 프로덕션용으로 애플리케이션을 빌드합니다.
--   `npm run start`: 빌드된 프로덕션 서버를 시작합니다.
--   `npm run lint`: ESLint를 사용하여 코드 스타일을 검사합니다.
+6. 브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속
+
+## 사용 가능한 스크립트
+
+- `npm run dev`: 개발 모드로 애플리케이션 실행
+- `npm run build`: 프로덕션 빌드
+- `npm run start`: 프로덕션 서버 시작
+- `npm run lint`: ESLint 코드 검사
+
+## 프로젝트 구조
+
+```
+manager-app-admin/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # 인증 관련 페이지
+│   └── (dashboard)/       # 대시보드 페이지
+├── components/            # React 컴포넌트
+│   ├── layouts/           # 레이아웃 컴포넌트
+│   └── ui/                # shadcn/ui 컴포넌트
+├── lib/                   # 유틸리티 및 설정
+├── public/                # 정적 파일
+└── types/                 # TypeScript 타입
+```
+
+## 라이선스
+
+© 2026 소복소복. All rights reserved.

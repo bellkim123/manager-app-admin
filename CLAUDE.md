@@ -1,4 +1,4 @@
-# CLAUDE.md - Manager App Admin
+# CLAUDE.md - 소복소복 어드민
 
 > Claude Code CLI 프로젝트 가이드라인
 
@@ -20,7 +20,7 @@ npx tsc --noEmit
 
 ## Project Overview
 
-**커피 브랜드 어드민 대시보드** - 점주용 앱 관리를 위한 내부 관리 시스템
+**소복소복 어드민 대시보드** - 다양한 브랜드를 위한 범용 점주 앱 관리 시스템
 
 | 항목 | 값 |
 |------|-----|

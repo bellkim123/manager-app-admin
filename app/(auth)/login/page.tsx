@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Coffee, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    brandCode: '',
     email: '',
     password: '',
   });
@@ -23,16 +25,21 @@ export default function LoginPage() {
     setError('');
     setIsLoading(true);
 
-    // Simulate login - replace with actual auth logic
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Demo: accept any non-empty credentials
-      if (formData.email && formData.password) {
-        router.push('/dashboard');
-      } else {
-        setError('이메일과 비밀번호를 입력해주세요.');
+      if (!formData.brandCode) {
+        setError('브랜드 코드를 입력해주세요.');
+        return;
       }
+
+      if (!formData.email || !formData.password) {
+        setError('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+
+      // Demo: accept any non-empty credentials
+      router.push('/dashboard');
     } catch {
       setError('로그인에 실패했습니다. 다시 시도해주세요.');
     } finally {
@@ -43,19 +50,23 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen">
       {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 lg:flex-col lg:justify-between bg-[#f7f6f3] p-12">
+      <div className="hidden lg:flex lg:w-1/2 lg:flex-col lg:justify-between bg-gradient-to-br from-[#f8f7fc] to-[#f3f0f9] p-12">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#37352f]">
-            <Coffee className="h-5 w-5 text-white" />
-          </div>
+          <Image
+            src="/images/logo.png"
+            alt="소복소복"
+            width={48}
+            height={48}
+            className="rounded-lg"
+          />
           <span className="text-xl font-semibold text-[#37352f]">
-            커피 어드민
+            소복소복 어드민
           </span>
         </div>
 
         <div className="space-y-6">
           <h1 className="text-4xl font-bold leading-tight text-[#37352f]">
-            매장 관리를
+            브랜드 관리를
             <br />
             더 스마트하게
           </h1>
@@ -64,10 +75,14 @@ export default function LoginPage() {
             <br />
             하나의 대시보드에서 모두 관리하세요.
           </p>
+          <div className="flex items-center gap-2 text-sm text-[#9b9a97]">
+            <Building2 className="h-4 w-4" />
+            <span>다양한 브랜드를 위한 범용 어드민 시스템</span>
+          </div>
         </div>
 
         <p className="text-sm text-[#9b9a97]">
-          © 2024 Coffee Admin. All rights reserved.
+          © 2026 소복소복. All rights reserved.
         </p>
       </div>
 
@@ -76,10 +91,14 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-sm">
           {/* Mobile Logo */}
           <div className="mb-8 flex items-center justify-center gap-3 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#37352f]">
-              <Coffee className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-semibold">커피 어드민</span>
+            <Image
+              src="/images/logo.png"
+              alt="소복소복"
+              width={48}
+              height={48}
+              className="rounded-lg"
+            />
+            <span className="text-xl font-semibold">소복소복</span>
           </div>
 
           <div className="mb-8 text-center lg:text-left">
@@ -87,7 +106,7 @@ export default function LoginPage() {
               로그인
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              계정 정보를 입력하여 로그인하세요
+              브랜드 코드와 계정 정보를 입력하여 로그인하세요
             </p>
           </div>
 
@@ -97,6 +116,33 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
+
+            {/* Brand Code Field */}
+            <div className="space-y-2">
+              <label
+                htmlFor="brandCode"
+                className="text-sm font-medium leading-none"
+              >
+                브랜드 코드
+              </label>
+              <div className="relative">
+                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="brandCode"
+                  type="text"
+                  placeholder="예: BRAND001"
+                  value={formData.brandCode}
+                  onChange={(e) =>
+                    setFormData({ ...formData, brandCode: e.target.value.toUpperCase() })
+                  }
+                  className="h-11 pl-10 uppercase"
+                  disabled={isLoading}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                브랜드 관리자에게 발급받은 코드를 입력하세요
+              </p>
+            </div>
 
             <div className="space-y-2">
               <label
@@ -108,7 +154,7 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@coffee.com"
+                placeholder="admin@example.com"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
