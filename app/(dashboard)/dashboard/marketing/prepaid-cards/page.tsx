@@ -115,6 +115,9 @@ const statusConfig = {
   suspended: { label: '정지', className: 'bg-red-100 text-red-700' },
 };
 
+// 원화를 코인으로 변환 (20원 = 1코인)
+const wonToCoin = (won: number) => Math.floor(won / 20);
+
 export default function PrepaidCardsPage() {
   const { isOpen, isHovered } = useSidebarStore();
   const showExpanded = isOpen || isHovered;
@@ -168,7 +171,7 @@ export default function PrepaidCardsPage() {
                 <TrendingUp className="h-4 w-4 text-green-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">₩{stats.totalBalance.toLocaleString()}</div>
+                <div className="text-2xl font-bold">{wonToCoin(stats.totalBalance).toLocaleString()} 코인</div>
               </CardContent>
             </Card>
             <Card>
@@ -179,7 +182,7 @@ export default function PrepaidCardsPage() {
                 <ArrowUpRight className="h-4 w-4 text-blue-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">₩{stats.totalCharged.toLocaleString()}</div>
+                <div className="text-2xl font-bold">{wonToCoin(stats.totalCharged).toLocaleString()} 코인</div>
               </CardContent>
             </Card>
             <Card>
@@ -190,7 +193,7 @@ export default function PrepaidCardsPage() {
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">₩280,000</div>
+                <div className="text-2xl font-bold">{wonToCoin(280000).toLocaleString()} 코인</div>
                 <p className="text-xs text-green-600">+12% 어제 대비</p>
               </CardContent>
             </Card>
@@ -271,9 +274,9 @@ export default function PrepaidCardsPage() {
                               <p className="text-xs text-muted-foreground">{card.ownerPhone}</p>
                             </td>
                             <td className="px-4 py-3">
-                              <p className="font-semibold">₩{card.balance.toLocaleString()}</p>
+                              <p className="font-semibold">{wonToCoin(card.balance).toLocaleString()} 코인</p>
                               <p className="text-xs text-muted-foreground">
-                                총 충전 ₩{card.totalCharged.toLocaleString()}
+                                총 충전 {wonToCoin(card.totalCharged).toLocaleString()} 코인
                               </p>
                             </td>
                             <td className="px-4 py-3">
