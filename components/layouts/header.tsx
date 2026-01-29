@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -100,11 +100,16 @@ const notificationColors = {
 
 export function Header({ title }: HeaderProps) {
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const { isOpen, isHovered } = useSidebarStore();
   const showExpanded = isOpen || isHovered;
   const [notifications, setNotifications] = useState(initialNotifications);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = () => {
     router.push('/login');
@@ -149,10 +154,14 @@ export function Header({ title }: HeaderProps) {
           variant="ghost"
           size="icon"
           className="h-9 w-9"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+          disabled={!mounted}
         >
-          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          {mounted && resolvedTheme === 'dark' ? (
+            <Moon className="h-4 w-4" />
+          ) : (
+            <Sun className="h-4 w-4" />
+          )}
           <span className="sr-only">테마 변경</span>
         </Button>
 
