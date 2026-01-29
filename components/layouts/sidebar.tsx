@@ -69,7 +69,9 @@ export function Sidebar() {
   };
 
   const renderNavItem = (item: { title: string; href: string; icon: React.ComponentType<{ className?: string }> }) => {
-    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+    const isActive = item.href === '/dashboard'
+      ? pathname === '/dashboard'
+      : pathname === item.href || pathname.startsWith(item.href + '/');
     const Icon = item.icon;
 
     return (
