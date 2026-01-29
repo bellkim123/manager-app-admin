@@ -20,6 +20,7 @@ import {
   Megaphone,
   Ticket,
   CreditCard,
+  Building2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/lib/stores/sidebar-store';
@@ -49,6 +50,7 @@ const marketingNavItems = [
 ];
 
 const adminNavItems = [
+  { title: '브랜드 관리', href: '/dashboard/brands', icon: Building2 },
   { title: '어드민 계정', href: '/dashboard/admins', icon: UserCog },
 ];
 

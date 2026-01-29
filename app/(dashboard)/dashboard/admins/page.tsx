@@ -26,6 +26,7 @@ import {
   Settings,
   ChevronDown,
   ChevronUp,
+  Building2,
 } from 'lucide-react';
 import { Header } from '@/components/layouts/header';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,7 @@ const menuItems = [
   { id: 'campaigns', name: '캠페인', icon: Megaphone, category: 'marketing' },
   { id: 'coupons', name: '쿠폰 관리', icon: Ticket, category: 'marketing' },
   { id: 'prepaid-cards', name: '선불카드', icon: CreditCard, category: 'marketing' },
+  { id: 'brands', name: '브랜드 관리', icon: Building2, category: 'admin' },
   { id: 'admins', name: '어드민 계정', icon: UserCog, category: 'admin' },
   { id: 'notifications', name: '알림', icon: Bell, category: 'system' },
   { id: 'settings', name: '설정', icon: Settings, category: 'system' },
@@ -73,7 +75,7 @@ const admins = [
     status: 'active' as const,
     lastLogin: '2024-01-28 14:32',
     createdAt: '2023-01-15',
-    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'admins', 'notifications', 'settings'],
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'brands', 'admins', 'notifications', 'settings'],
   },
   {
     id: '2',
@@ -84,7 +86,7 @@ const admins = [
     status: 'active' as const,
     lastLogin: '2024-01-28 10:15',
     createdAt: '2023-03-20',
-    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'notifications', 'settings'],
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'brands', 'notifications', 'settings'],
   },
   {
     id: '3',
@@ -117,7 +119,7 @@ const admins = [
     status: 'pending' as const,
     lastLogin: '-',
     createdAt: '2024-01-25',
-    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'notifications', 'settings'],
+    menuPermissions: ['home', 'stores', 'owners', 'orders', 'analytics', 'contents', 'campaigns', 'coupons', 'prepaid-cards', 'brands', 'notifications', 'settings'],
   },
 ];
 
