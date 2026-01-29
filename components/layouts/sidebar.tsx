@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -59,9 +59,14 @@ const bottomNavItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { isOpen, isHovered, toggle, setHovered } = useSidebarStore();
 
   const showExpanded = isOpen || isHovered;
+
+  const handleLogout = () => {
+    router.push('/login');
+  };
 
   const renderNavItem = (item: { title: string; href: string; icon: React.ComponentType<{ className?: string }> }) => {
     const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -208,6 +213,7 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <button
+                onClick={handleLogout}
                 className={cn(
                   'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
                   'hover:bg-sidebar-accent',

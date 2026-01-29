@@ -37,36 +37,51 @@ npx tsc --noEmit
 manager-app-admin/
 ├── app/                          # App Router (Pages & Layouts)
 │   ├── (auth)/                   # 인증 관련 라우트 그룹
-│   │   ├── login/
+│   │   ├── login/                # 로그인 페이지
 │   │   └── layout.tsx
 │   ├── (dashboard)/              # 대시보드 라우트 그룹
-│   │   ├── stores/               # 매장 관리
-│   │   ├── owners/               # 점주 관리
-│   │   ├── orders/               # 주문 데이터
-│   │   ├── contents/             # 콘텐츠 관리
+│   │   ├── dashboard/            # 대시보드 하위 페이지
+│   │   │   ├── page.tsx          # 대시보드 메인
+│   │   │   ├── admins/           # 관리자 계정 관리
+│   │   │   ├── analytics/        # 분석/통계
+│   │   │   ├── contents/         # 콘텐츠 관리
+│   │   │   ├── marketing/        # 마케팅
+│   │   │   │   ├── campaigns/    # 캠페인
+│   │   │   │   ├── coupons/      # 쿠폰
+│   │   │   │   └── prepaid-cards/# 선불카드
+│   │   │   ├── notifications/    # 알림
+│   │   │   ├── orders/           # 주문 데이터
+│   │   │   ├── owners/           # 점주 관리
+│   │   │   ├── settings/         # 설정
+│   │   │   └── stores/           # 매장 관리
 │   │   └── layout.tsx
-│   ├── api/                      # Route Handlers
 │   ├── layout.tsx                # Root Layout
-│   ├── page.tsx                  # Home Page
+│   ├── page.tsx                  # Home Page (리다이렉트)
 │   └── globals.css
 ├── components/                   # React Components
 │   ├── ui/                       # shadcn/ui 컴포넌트
-│   ├── layouts/                  # 레이아웃 컴포넌트
-│   ├── features/                 # Feature별 컴포넌트
-│   │   ├── stores/
-│   │   ├── owners/
-│   │   ├── orders/
-│   │   └── contents/
-│   └── shared/                   # 공통 컴포넌트
+│   │   ├── avatar.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── input.tsx
+│   │   ├── popover.tsx
+│   │   ├── separator.tsx
+│   │   ├── sheet.tsx
+│   │   └── tooltip.tsx
+│   └── layouts/                  # 레이아웃 컴포넌트
+│       ├── dashboard-layout.tsx
+│       ├── header.tsx
+│       ├── sidebar.tsx
+│       └── index.ts
 ├── lib/                          # Utilities & Configurations
-│   ├── api/                      # API 클라이언트
-│   ├── utils/                    # 유틸리티 함수
-│   ├── hooks/                    # Custom Hooks
-│   └── constants/                # 상수
+│   ├── stores/                   # Zustand 스토어
+│   │   ├── sidebar-store.ts      # 사이드바 상태
+│   │   └── index.ts
+│   └── utils.ts                  # 유틸리티 함수 (cn 등)
 ├── types/                        # TypeScript Types
-├── styles/                       # 추가 스타일 (필요시)
-├── public/                       # Static Assets
-└── __tests__/                    # 테스트 파일
+│   └── index.ts                  # 공통 타입 정의
+└── public/                       # Static Assets
 ```
 
 ## Tech Stack Recommendations
@@ -77,16 +92,16 @@ manager-app-admin/
 - **TypeScript 5** - 타입 안전성
 - **Tailwind CSS 4** - 유틸리티 기반 스타일링
 
-### UI & Components (권장 설치)
+### UI & Components (설치됨)
 - **shadcn/ui** - 커스터마이징 가능한 UI 컴포넌트
 - **Lucide React** - 아이콘
 - **class-variance-authority** - 조건부 스타일링
 - **clsx / tailwind-merge** - 클래스 유틸리티
 
-### Data & State (권장)
-- **TanStack Query v5** - 서버 상태 관리
-- **Zustand** - 클라이언트 상태 관리 (필요시)
-- **TanStack Table** - 데이터 테이블
+### Data & State
+- **Zustand** - 클라이언트 상태 관리 (설치됨)
+- **TanStack Query v5** - 서버 상태 관리 (권장)
+- **TanStack Table** - 데이터 테이블 (권장)
 
 ### Form & Validation
 - **React Hook Form** - 폼 관리
@@ -243,8 +258,6 @@ export function useCreateStore() {
 
 | 에이전트 | 역할 |
 |----------|------|
-| `nextjs-planner` | 기능 구현 계획 수립 |
-| `nextjs-code-reviewer` | 코드 품질/성능 리뷰 |
 | `ui-component-builder` | UI 컴포넌트 구현 |
 | `api-designer` | API 설계 및 구현 |
 | `security-reviewer` | 보안 취약점 검토 |
@@ -365,8 +378,6 @@ import type { Store } from '@/types';
 ├── settings.json           # Hooks 설정
 ├── settings.local.json     # 권한 및 환경 변수
 ├── agents/                 # 특화 에이전트
-│   ├── nextjs-planner.md
-│   ├── nextjs-code-reviewer.md
 │   ├── ui-component-builder.md
 │   ├── api-designer.md
 │   └── security-reviewer.md
@@ -377,10 +388,7 @@ import type { Store } from '@/types';
 │   ├── review/SKILL.md
 │   ├── commit/SKILL.md
 │   └── plan/SKILL.md
-├── hooks/                  # 자동화 스크립트
-│   └── protect-sensitive-files.sh
 └── rules/                  # 코딩 규칙
-    ├── nextjs-conventions.md
     ├── react-patterns.md
     ├── typescript-style.md
     └── security.md
@@ -403,6 +411,11 @@ import type { Store } from '@/types';
 - **점주 관리**: 계정 생성, 권한 설정
 - **주문 데이터**: 조회, 통계, 내보내기
 - **콘텐츠 관리**: 공지사항, 이벤트 배너
+- **마케팅**: 캠페인, 쿠폰, 선불카드 관리
+- **분석/통계**: 데이터 분석 및 시각화
+- **알림**: 푸시 알림 관리
+- **관리자 관리**: 어드민 계정 CRUD, 권한 설정
+- **설정**: 시스템 설정
 - **대시보드**: KPI 시각화, 차트
 
 ### API Integration

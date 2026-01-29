@@ -73,15 +73,34 @@
 
 ```
 manager-app-admin/
-├── app/                    # Next.js App Router
-│   ├── (auth)/            # 인증 관련 페이지
-│   └── (dashboard)/       # 대시보드 페이지
-├── components/            # React 컴포넌트
-│   ├── layouts/           # 레이아웃 컴포넌트
-│   └── ui/                # shadcn/ui 컴포넌트
-├── lib/                   # 유틸리티 및 설정
-├── public/                # 정적 파일
-└── types/                 # TypeScript 타입
+├── app/                          # Next.js App Router
+│   ├── (auth)/                   # 인증 관련 페이지
+│   │   └── login/                # 로그인
+│   ├── (dashboard)/dashboard/    # 대시보드 페이지
+│   │   ├── admins/               # 관리자 관리
+│   │   ├── analytics/            # 분석/통계
+│   │   ├── contents/             # 콘텐츠 관리
+│   │   ├── marketing/            # 마케팅
+│   │   │   ├── campaigns/        # 캠페인
+│   │   │   ├── coupons/          # 쿠폰
+│   │   │   └── prepaid-cards/    # 선불카드
+│   │   ├── notifications/        # 알림
+│   │   ├── orders/               # 주문 데이터
+│   │   ├── owners/               # 점주 관리
+│   │   ├── settings/             # 설정
+│   │   └── stores/               # 매장 관리
+│   └── page.tsx                  # 홈 (리다이렉트)
+├── components/                   # React 컴포넌트
+│   ├── layouts/                  # 레이아웃 컴포넌트
+│   │   ├── dashboard-layout.tsx
+│   │   ├── header.tsx
+│   │   └── sidebar.tsx
+│   └── ui/                       # shadcn/ui 컴포넌트
+├── lib/                          # 유틸리티 및 설정
+│   ├── stores/                   # Zustand 스토어
+│   └── utils.ts                  # 유틸리티 함수
+├── types/                        # TypeScript 타입
+└── public/                       # 정적 파일
 ```
 
 ## 라이선스

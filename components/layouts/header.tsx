@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   Bell,
@@ -97,10 +98,15 @@ const notificationColors = {
 };
 
 export function Header({ title }: HeaderProps) {
+  const router = useRouter();
   const { isOpen, isHovered } = useSidebarStore();
   const showExpanded = isOpen || isHovered;
   const [notifications, setNotifications] = useState(initialNotifications);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const handleLogout = () => {
+    router.push('/login');
+  };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -291,7 +297,7 @@ export function Header({ title }: HeaderProps) {
             <DropdownMenuItem>프로필</DropdownMenuItem>
             <DropdownMenuItem>설정</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
               로그아웃
             </DropdownMenuItem>
           </DropdownMenuContent>
