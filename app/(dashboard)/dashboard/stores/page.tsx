@@ -223,7 +223,7 @@ export default function StoresPage() {
                 setCurrentPage(1);
               }}
             >
-              <SelectTrigger className="w-[140px]">
+              <SelectTrigger className="w-35">
                 <SelectValue placeholder="브랜드" />
               </SelectTrigger>
               <SelectContent>
@@ -242,7 +242,7 @@ export default function StoresPage() {
                 setCurrentPage(1);
               }}
             >
-              <SelectTrigger className="w-[120px]">
+              <SelectTrigger className="w-30">
                 <SelectValue placeholder="상태" />
               </SelectTrigger>
               <SelectContent>
@@ -368,7 +368,7 @@ export default function StoresPage() {
                     </td>
                     <td className="px-4 py-3 text-sm">{store.owner}</td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground max-w-[200px]">
+                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground max-w-50">
                         <MapPin className="h-3.5 w-3.5 shrink-0" />
                         <span className="truncate">{store.address}</span>
                       </div>
