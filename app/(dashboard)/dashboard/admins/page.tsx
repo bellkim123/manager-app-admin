@@ -228,8 +228,80 @@ export default function AdminsPage() {
             </Button>
           </div>
 
-          {/* Admins Table */}
-          <div className="rounded-lg border bg-card">
+          {/* Mobile Admin Cards */}
+          <div className="space-y-3 md:hidden">
+            {filteredAdmins.map((admin) => {
+              const role = roleConfig[admin.role];
+              const status = statusConfig[admin.status];
+              const permissions = adminPermissions[admin.id] || [];
+
+              return (
+                <div
+                  key={admin.id}
+                  className="rounded-lg border bg-card p-4"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="" />
+                        <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{admin.name}</p>
+                        <p className="text-xs text-muted-foreground">{admin.email}</p>
+                      </div>
+                    </div>
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-xs font-medium',
+                        status.className
+                      )}
+                    >
+                      {status.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="h-3.5 w-3.5 text-muted-foreground" />
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-xs font-medium',
+                        role.className
+                      )}
+                    >
+                      {role.label}
+                    </span>
+                    <code className="ml-auto rounded bg-muted px-1.5 py-0.5 text-xs">
+                      {admin.brandCode}
+                    </code>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Settings2 className="h-3.5 w-3.5" />
+                      <span>{permissions.length}/{menuItems.length} 메뉴 권한</span>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>상세 보기</DropdownMenuItem>
+                        <DropdownMenuItem>권한 수정</DropdownMenuItem>
+                        <DropdownMenuItem>비밀번호 초기화</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          계정 삭제
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Admins Table */}
+          <div className="hidden md:block rounded-lg border bg-card">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>

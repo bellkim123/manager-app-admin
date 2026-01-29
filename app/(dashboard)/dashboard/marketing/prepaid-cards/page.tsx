@@ -215,8 +215,68 @@ export default function PrepaidCardsPage() {
                 </Button>
               </div>
 
-              {/* Card Table */}
-              <div className="rounded-lg border bg-card">
+              {/* Mobile Card List */}
+              <div className="space-y-3 md:hidden">
+                {filteredCards.map((card) => {
+                  const status = statusConfig[card.status];
+
+                  return (
+                    <div
+                      key={card.id}
+                      className="rounded-lg border bg-card p-4"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-primary/80 to-primary">
+                            <CreditCard className="h-4 w-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{card.ownerName}</p>
+                            <code className="text-xs text-muted-foreground">{card.cardNumber}</code>
+                          </div>
+                        </div>
+                        <span
+                          className={cn(
+                            'rounded-full px-2 py-0.5 text-xs font-medium',
+                            status.className
+                          )}
+                        >
+                          {status.label}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-lg font-semibold">{wonToCoin(card.balance).toLocaleString()} 코인</p>
+                          <p className="text-xs text-muted-foreground">
+                            총 {wonToCoin(card.totalCharged).toLocaleString()} 코인 충전
+                          </p>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem>상세 보기</DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <RefreshCw className="mr-2 h-4 w-4" />
+                              잔액 환불
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive">
+                              <Ban className="mr-2 h-4 w-4" />
+                              카드 정지
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop Card Table */}
+              <div className="hidden md:block rounded-lg border bg-card">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>

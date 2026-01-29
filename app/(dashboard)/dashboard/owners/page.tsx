@@ -106,8 +106,66 @@ export default function OwnersPage() {
             </Button>
           </div>
 
-          {/* Owners Table */}
-          <div className="rounded-lg border bg-card">
+          {/* Mobile Owner Cards */}
+          <div className="space-y-3 md:hidden">
+            {filteredOwners.map((owner) => {
+              const status = statusConfig[owner.status];
+              return (
+                <div
+                  key={owner.id}
+                  className="rounded-lg border bg-card p-4"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="" />
+                        <AvatarFallback>{owner.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{owner.name}</p>
+                        <p className="text-xs text-muted-foreground">{owner.email}</p>
+                      </div>
+                    </div>
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-xs font-medium',
+                        status.className
+                      )}
+                    >
+                      {status.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Store className="h-3.5 w-3.5" />
+                      <span>
+                        {owner.stores.length > 0
+                          ? `${owner.stores.length}개 매장`
+                          : '매장 없음'}
+                      </span>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>상세 보기</DropdownMenuItem>
+                        <DropdownMenuItem>수정</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          비활성화
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Owners Table */}
+          <div className="hidden md:block rounded-lg border bg-card">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>

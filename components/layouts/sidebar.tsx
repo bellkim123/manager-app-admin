@@ -18,7 +18,9 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetTitle,
 } from '@/components/ui/sheet';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import {
   NAV_SECTIONS,
   BOTTOM_NAV_ITEMS,
@@ -324,6 +326,9 @@ function MobileSidebar() {
         className="w-60 p-0 flex flex-col"
         showCloseButton={false}
       >
+        <VisuallyHidden.Root>
+          <SheetTitle>네비게이션 메뉴</SheetTitle>
+        </VisuallyHidden.Root>
         <SidebarContent
           isExpanded={true}
           onNavigate={closeMobile}

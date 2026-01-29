@@ -207,8 +207,75 @@ export default function CouponsPage() {
             </div>
           </div>
 
-          {/* Coupon Table */}
-          <div className="rounded-lg border bg-card">
+          {/* Mobile Coupon Cards */}
+          <div className="space-y-3 md:hidden">
+            {filteredCoupons.map((coupon) => {
+              const status = statusConfig[coupon.status];
+              const type = typeConfig[coupon.type];
+              const TypeIcon = type.icon;
+              const usageRate = coupon.totalIssued > 0
+                ? ((coupon.totalUsed / coupon.totalIssued) * 100).toFixed(1)
+                : 0;
+
+              return (
+                <div
+                  key={coupon.id}
+                  className="rounded-lg border bg-card p-4"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
+                        <TypeIcon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{coupon.name}</p>
+                        <code className="text-xs text-muted-foreground">{coupon.code}</code>
+                      </div>
+                    </div>
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-xs font-medium',
+                        status.className
+                      )}
+                    >
+                      {status.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-lg font-semibold">
+                      {coupon.type === 'fixed' && `₩${coupon.value.toLocaleString()}`}
+                      {coupon.type === 'percent' && `${coupon.value}%`}
+                      {coupon.type === 'free_item' && coupon.freeItem}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {coupon.totalUsed.toLocaleString()} / {coupon.totalIssued.toLocaleString()} 사용
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{coupon.startDate} ~ {coupon.endDate}</span>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-7 w-7">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>상세 보기</DropdownMenuItem>
+                        <DropdownMenuItem>수정</DropdownMenuItem>
+                        <DropdownMenuItem>복제</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          삭제
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Coupon Table */}
+          <div className="hidden md:block rounded-lg border bg-card">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>

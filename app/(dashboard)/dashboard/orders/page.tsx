@@ -100,8 +100,43 @@ export default function OrdersPage() {
             </Button>
           </div>
 
-          {/* Orders Table */}
-          <div className="rounded-lg border bg-card">
+          {/* Mobile Order Cards */}
+          <div className="space-y-3 md:hidden">
+            {filteredOrders.map((order) => {
+              const status = statusConfig[order.status];
+              return (
+                <div
+                  key={order.id}
+                  className="rounded-lg border bg-card p-4 active:bg-muted/30"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <p className="font-medium">{order.store}</p>
+                      <p className="text-xs text-muted-foreground">{order.createdAt}</p>
+                    </div>
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-xs font-medium',
+                        status.className
+                      )}
+                    >
+                      {status.label}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
+                    {order.items}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold">{order.amount}</span>
+                    <span className="text-xs text-muted-foreground">{order.paymentMethod}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Orders Table */}
+          <div className="hidden md:block rounded-lg border bg-card">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
