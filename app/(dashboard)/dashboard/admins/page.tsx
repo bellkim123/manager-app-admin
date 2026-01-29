@@ -430,65 +430,75 @@ export default function AdminsPage() {
                                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                   {Object.entries(categoryNames).map(([category, categoryName]) => {
                                     const categoryMenus = menuItems.filter((item) => item.category === category);
-                                    const allSelected = categoryMenus.every((item) =>
+                                    const selectedCount = categoryMenus.filter((item) =>
                                       permissions.includes(item.id)
-                                    );
-                                    const someSelected = categoryMenus.some((item) =>
-                                      permissions.includes(item.id)
-                                    );
+                                    ).length;
+                                    const allSelected = selectedCount === categoryMenus.length;
+                                    const someSelected = selectedCount > 0;
 
                                     return (
-                                      <div key={category} className="space-y-2">
-                                        <div className="flex items-center justify-between">
-                                          <span className="text-sm font-medium text-muted-foreground">
-                                            {categoryName}
-                                          </span>
-                                          <button
-                                            onClick={() => toggleAllCategory(admin.id, category)}
+                                      <div key={category} className="space-y-1">
+                                        {/* 대메뉴 (카테고리) */}
+                                        <button
+                                          onClick={() => toggleAllCategory(admin.id, category)}
+                                          className={cn(
+                                            'flex w-full items-center gap-2 rounded-md px-2 py-2 transition-colors',
+                                            'bg-muted/50 hover:bg-muted'
+                                          )}
+                                        >
+                                          <div
                                             className={cn(
-                                              'h-4 w-4 rounded border flex items-center justify-center transition-colors',
+                                              'h-4 w-4 rounded border flex items-center justify-center transition-colors shrink-0',
                                               allSelected
                                                 ? 'bg-primary border-primary'
                                                 : someSelected
                                                 ? 'bg-primary/50 border-primary/50'
-                                                : 'border-input hover:border-primary/50'
+                                                : 'border-input'
                                             )}
                                           >
                                             {allSelected && <Check className="h-3 w-3 text-primary-foreground" />}
                                             {someSelected && !allSelected && (
                                               <div className="h-1.5 w-1.5 bg-primary-foreground rounded-sm" />
                                             )}
-                                          </button>
-                                        </div>
-                                        <div className="space-y-1">
+                                          </div>
+                                          <span className="text-sm font-medium flex-1 text-left">
+                                            {categoryName}
+                                          </span>
+                                          <span className="text-xs text-muted-foreground">
+                                            {selectedCount}/{categoryMenus.length}
+                                          </span>
+                                        </button>
+
+                                        {/* 하위메뉴 */}
+                                        <div className="space-y-0.5 pl-2">
                                           {categoryMenus.map((menu) => {
                                             const Icon = menu.icon;
                                             const isChecked = permissions.includes(menu.id);
 
                                             return (
-                                              <label
+                                              <button
                                                 key={menu.id}
+                                                onClick={() => toggleMenuPermission(admin.id, menu.id)}
                                                 className={cn(
-                                                  'flex items-center gap-2 rounded-md px-2 py-1.5 cursor-pointer transition-colors',
+                                                  'flex w-full items-center gap-2 rounded-md px-2 py-1.5 transition-colors',
                                                   isChecked
                                                     ? 'bg-primary/10 text-primary'
-                                                    : 'hover:bg-muted'
+                                                    : 'hover:bg-muted/50'
                                                 )}
                                               >
-                                                <button
-                                                  onClick={() => toggleMenuPermission(admin.id, menu.id)}
+                                                <div
                                                   className={cn(
-                                                    'h-4 w-4 rounded border flex items-center justify-center transition-colors',
+                                                    'h-4 w-4 rounded border flex items-center justify-center transition-colors shrink-0',
                                                     isChecked
                                                       ? 'bg-primary border-primary'
-                                                      : 'border-input hover:border-primary/50'
+                                                      : 'border-input'
                                                   )}
                                                 >
                                                   {isChecked && <Check className="h-3 w-3 text-primary-foreground" />}
-                                                </button>
-                                                <Icon className="h-3.5 w-3.5" />
+                                                </div>
+                                                <Icon className="h-3.5 w-3.5 shrink-0" />
                                                 <span className="text-sm">{menu.name}</span>
-                                              </label>
+                                              </button>
                                             );
                                           })}
                                         </div>
