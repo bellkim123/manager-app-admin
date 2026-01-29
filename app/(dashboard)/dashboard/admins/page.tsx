@@ -52,7 +52,7 @@ const menuItems = [
   { id: 'contents', name: '콘텐츠 관리', icon: FileText, category: 'main' },
   { id: 'campaigns', name: '캠페인', icon: Megaphone, category: 'marketing' },
   { id: 'coupons', name: '쿠폰 관리', icon: Ticket, category: 'marketing' },
-  { id: 'prepaid-cards', name: '선불카드', icon: CreditCard, category: 'marketing' },
+  { id: 'prepaid-cards', name: '결제 관리', icon: CreditCard, category: 'marketing' },
   { id: 'admins', name: '어드민 계정', icon: UserCog, category: 'admin' },
   { id: 'notifications', name: '알림', icon: Bell, category: 'system' },
   { id: 'settings', name: '설정', icon: Settings, category: 'system' },

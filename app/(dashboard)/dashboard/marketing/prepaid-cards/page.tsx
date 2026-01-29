@@ -136,7 +136,7 @@ export default function PrepaidCardsPage() {
 
   return (
     <>
-      <Header title="선불카드 관리" />
+      <Header title="결제 관리" />
       <main
         className={cn(
           'min-h-[calc(100vh-3.5rem)] transition-sidebar',

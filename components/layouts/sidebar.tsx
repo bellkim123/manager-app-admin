@@ -47,7 +47,7 @@ const mainNavItems = [
 const marketingNavItems = [
   { title: '캠페인', href: '/dashboard/marketing/campaigns', icon: Megaphone },
   { title: '쿠폰 관리', href: '/dashboard/marketing/coupons', icon: Ticket },
-  { title: '선불카드', href: '/dashboard/marketing/prepaid-cards', icon: CreditCard },
+  { title: '결제 관리', href: '/dashboard/marketing/prepaid-cards', icon: CreditCard },
 ];
 
 const adminNavItems = [
