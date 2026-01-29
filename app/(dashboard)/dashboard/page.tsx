@@ -9,8 +9,7 @@ import {
   ArrowDownRight,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Header } from '@/components/layouts/header';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
+import { Header, MainContent } from '@/components/layouts';
 import { cn } from '@/lib/utils';
 
 const stats = [
@@ -94,20 +93,11 @@ const topStores = [
 ];
 
 export default function DashboardPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
-
   return (
     <>
       <Header title="대시보드" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
-          {/* Welcome Section */}
+      <MainContent>
+        {/* Welcome Section */}
           <div className="mb-8">
             <h2 className="text-2xl font-semibold tracking-tight">
               안녕하세요, 관리자님 👋
@@ -228,8 +218,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </main>
+      </MainContent>
     </>
   );
 }

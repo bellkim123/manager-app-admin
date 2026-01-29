@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Search, Filter, MoreHorizontal, Mail, Phone, Store } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const owners = [
@@ -70,8 +69,6 @@ const statusConfig = {
 };
 
 export default function OwnersPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredOwners = owners.filter(
@@ -86,13 +83,7 @@ export default function OwnersPage() {
   return (
     <>
       <Header title="점주 관리" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Header Actions */}
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-1 items-center gap-2">
@@ -216,13 +207,12 @@ export default function OwnersPage() {
             </div>
           </div>
 
-          {filteredOwners.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-muted-foreground">검색 결과가 없습니다.</p>
-            </div>
-          )}
-        </div>
-      </main>
+        {filteredOwners.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <p className="text-muted-foreground">검색 결과가 없습니다.</p>
+          </div>
+        )}
+      </MainContent>
     </>
   );
 }

@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { Bell, Check, CheckCheck, Trash2, Settings } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const notifications = [
@@ -60,8 +59,6 @@ const typeConfig = {
 };
 
 export default function NotificationsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [items, setItems] = useState(notifications);
 
   const unreadCount = items.filter((n) => !n.read).length;
@@ -77,13 +74,7 @@ export default function NotificationsPage() {
   return (
     <>
       <Header title="알림" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6 max-w-2xl">
+      <MainContent className="max-w-2xl">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -158,14 +149,13 @@ export default function NotificationsPage() {
             })}
           </div>
 
-          {items.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Bell className="h-12 w-12 text-muted-foreground/50 mb-4" />
-              <p className="text-muted-foreground">알림이 없습니다.</p>
-            </div>
-          )}
-        </div>
-      </main>
+        {items.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <Bell className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <p className="text-muted-foreground">알림이 없습니다.</p>
+          </div>
+        )}
+      </MainContent>
     </>
   );
 }

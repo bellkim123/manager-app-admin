@@ -15,7 +15,7 @@ import {
   Copy,
   BarChart3,
 } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +25,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const campaigns = [
@@ -110,8 +109,6 @@ const typeConfig = {
 };
 
 export default function CampaignsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCampaigns = campaigns.filter((campaign) =>
@@ -130,13 +127,7 @@ export default function CampaignsPage() {
   return (
     <>
       <Header title="마케팅 캠페인" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Stats */}
           <div className="mb-6 grid gap-4 md:grid-cols-4">
             <Card>
@@ -311,8 +302,7 @@ export default function CampaignsPage() {
               );
             })}
           </div>
-        </div>
-      </main>
+      </MainContent>
     </>
   );
 }

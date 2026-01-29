@@ -13,7 +13,7 @@ import {
   RefreshCw,
   Ban,
 } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +23,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const prepaidCards = [
@@ -119,8 +118,6 @@ const statusConfig = {
 const wonToCoin = (won: number) => Math.floor(won / 20);
 
 export default function PrepaidCardsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCards = prepaidCards.filter(
@@ -140,13 +137,7 @@ export default function PrepaidCardsPage() {
   return (
     <>
       <Header title="결제 관리" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Stats */}
           <div className="mb-6 grid gap-4 md:grid-cols-4">
             <Card>
@@ -366,8 +357,7 @@ export default function PrepaidCardsPage() {
               </Card>
             </div>
           </div>
-        </div>
-      </main>
+      </MainContent>
     </>
   );
 }

@@ -1,26 +1,15 @@
 'use client';
 
 import { Calendar, TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Store } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
-import { cn } from '@/lib/utils';
 
 export default function AnalyticsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
-
   return (
     <>
       <Header title="매출 통계" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Period Selector */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -210,8 +199,7 @@ export default function AnalyticsPage() {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </main>
+      </MainContent>
     </>
   );
 }

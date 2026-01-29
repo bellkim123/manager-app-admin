@@ -14,7 +14,7 @@ import {
   Copy,
   ExternalLink,
 } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -23,7 +23,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const brands = [
@@ -99,8 +98,6 @@ const statusConfig = {
 };
 
 export default function BrandsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedBrandId, setExpandedBrandId] = useState<string | null>(null);
 
@@ -121,13 +118,7 @@ export default function BrandsPage() {
   return (
     <>
       <Header title="브랜드 관리" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Header */}
           <div className="mb-6">
             <p className="text-muted-foreground">
@@ -332,14 +323,13 @@ export default function BrandsPage() {
             })}
           </div>
 
-          {filteredBrands.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Building2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
-              <p className="text-muted-foreground">검색 결과가 없습니다.</p>
-            </div>
-          )}
-        </div>
-      </main>
+        {filteredBrands.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <Building2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <p className="text-muted-foreground">검색 결과가 없습니다.</p>
+          </div>
+        )}
+      </MainContent>
     </>
   );
 }

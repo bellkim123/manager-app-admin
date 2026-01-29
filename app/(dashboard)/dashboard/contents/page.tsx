@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Search, FileText, Image, MoreHorizontal, Eye, Calendar } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const contents = [
@@ -76,8 +75,6 @@ const statusConfig = {
 };
 
 export default function ContentsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'notice' | 'banner' | 'event'>('all');
 
@@ -92,13 +89,7 @@ export default function ContentsPage() {
   return (
     <>
       <Header title="콘텐츠 관리" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Tabs */}
           <div className="mb-6 flex items-center gap-1 border-b">
             {[
@@ -214,13 +205,12 @@ export default function ContentsPage() {
             })}
           </div>
 
-          {filteredContents.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-muted-foreground">콘텐츠가 없습니다.</p>
-            </div>
-          )}
-        </div>
-      </main>
+        {filteredContents.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <p className="text-muted-foreground">콘텐츠가 없습니다.</p>
+          </div>
+        )}
+      </MainContent>
     </>
   );
 }

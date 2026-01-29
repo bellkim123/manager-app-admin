@@ -28,7 +28,7 @@ import {
   ChevronUp,
   Building2,
 } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -38,7 +38,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 // 메뉴 목록 정의
@@ -153,8 +152,6 @@ const statusConfig = {
 };
 
 export default function AdminsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedAdminId, setExpandedAdminId] = useState<string | null>(null);
   const [adminPermissions, setAdminPermissions] = useState<Record<string, string[]>>(
@@ -201,13 +198,7 @@ export default function AdminsPage() {
   return (
     <>
       <Header title="어드민 계정 관리" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Header */}
           <div className="mb-6">
             <p className="text-muted-foreground">
@@ -536,29 +527,28 @@ export default function AdminsPage() {
             </div>
           )}
 
-          {/* Role Legend */}
-          <div className="mt-6 rounded-lg border bg-muted/30 p-4">
-            <h3 className="text-sm font-medium mb-3">역할 설명</h3>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              {Object.entries(roleConfig).map(([key, value]) => (
-                <div key={key} className="flex items-center gap-2">
-                  <span
-                    className={cn(
-                      'rounded-full px-2 py-0.5 text-xs font-medium',
-                      value.className
-                    )}
-                  >
-                    {value.label}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {value.description}
-                  </span>
-                </div>
-              ))}
-            </div>
+        {/* Role Legend */}
+        <div className="mt-6 rounded-lg border bg-muted/30 p-4">
+          <h3 className="text-sm font-medium mb-3">역할 설명</h3>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {Object.entries(roleConfig).map(([key, value]) => (
+              <div key={key} className="flex items-center gap-2">
+                <span
+                  className={cn(
+                    'rounded-full px-2 py-0.5 text-xs font-medium',
+                    value.className
+                  )}
+                >
+                  {value.label}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {value.description}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
-      </main>
+      </MainContent>
     </>
   );
 }

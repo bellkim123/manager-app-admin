@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { Search, Filter, Download, Calendar } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
 import { cn } from '@/lib/utils';
 
 const orders = [
@@ -63,8 +62,6 @@ const statusConfig = {
 };
 
 export default function OrdersPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredOrders = orders.filter(
@@ -77,13 +74,7 @@ export default function OrdersPage() {
   return (
     <>
       <Header title="주문 내역" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6">
+      <MainContent>
           {/* Header Actions */}
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-1 items-center gap-2">
@@ -180,22 +171,21 @@ export default function OrdersPage() {
             </div>
           </div>
 
-          {/* Pagination */}
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              총 {filteredOrders.length}건
-            </p>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" disabled>
-                이전
-              </Button>
-              <Button variant="outline" size="sm">
-                다음
-              </Button>
-            </div>
+        {/* Pagination */}
+        <div className="mt-4 flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            총 {filteredOrders.length}건
+          </p>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" disabled>
+              이전
+            </Button>
+            <Button variant="outline" size="sm">
+              다음
+            </Button>
           </div>
         </div>
-      </main>
+      </MainContent>
     </>
   );
 }

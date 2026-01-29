@@ -1,13 +1,11 @@
 'use client';
 
 import { User, Bell, Shield, Palette, Database, HelpCircle } from 'lucide-react';
-import { Header } from '@/components/layouts/header';
+import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { useSidebarStore } from '@/lib/stores/sidebar-store';
-import { cn } from '@/lib/utils';
 
 const settingsSections = [
   {
@@ -49,19 +47,10 @@ const settingsSections = [
 ];
 
 export default function SettingsPage() {
-  const { isOpen, isHovered } = useSidebarStore();
-  const showExpanded = isOpen || isHovered;
-
   return (
     <>
       <Header title="설정" />
-      <main
-        className={cn(
-          'min-h-[calc(100vh-3.5rem)] transition-sidebar',
-          showExpanded ? 'ml-60' : 'ml-[52px]'
-        )}
-      >
-        <div className="p-6 max-w-4xl">
+      <MainContent className="max-w-4xl">
           {/* Profile Section */}
           <Card className="mb-6">
             <CardHeader>
@@ -139,8 +128,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
-      </main>
+      </MainContent>
     </>
   );
 }
