@@ -1,7 +1,6 @@
 import {
   Home,
   Store,
-  Users,
   ShoppingCart,
   FileText,
   Settings,
@@ -12,6 +11,7 @@ import {
   Ticket,
   CreditCard,
   Building2,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -30,7 +30,6 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
   { title: '홈', href: '/dashboard', icon: Home },
   { title: '브랜드 관리', href: '/dashboard/brands', icon: Building2 },
   { title: '매장 관리', href: '/dashboard/stores', icon: Store },
-  { title: '점주 관리', href: '/dashboard/owners', icon: Users },
   { title: '주문 내역', href: '/dashboard/orders', icon: ShoppingCart },
   { title: '매출 통계', href: '/dashboard/analytics', icon: BarChart3 },
   { title: '콘텐츠 관리', href: '/dashboard/contents', icon: FileText },
@@ -43,6 +42,7 @@ export const MARKETING_NAV_ITEMS: NavItem[] = [
 ];
 
 export const ADMIN_NAV_ITEMS: NavItem[] = [
+  { title: '1:1 문의', href: '/dashboard/inquiries', icon: MessageSquare },
   { title: '어드민 계정', href: '/dashboard/admins', icon: UserCog },
 ];
 
