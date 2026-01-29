@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -149,13 +149,18 @@ function SearchBar() {
   );
 }
 
+// useSyncExternalStore를 사용한 마운트 상태 추적
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+function useMounted() {
+  return useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
+}
+
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   return (
     <Button
@@ -242,20 +247,25 @@ function NotificationPopover() {
           variant="ghost"
           size="icon"
           className={cn(
-            'relative h-9 w-9 transition-transform',
-            isOpen && 'scale-95'
+            'relative h-9 w-9 transition-all duration-200',
+            isOpen && 'scale-95 bg-muted'
           )}
         >
           <Bell
             className={cn(
-              'h-4 w-4 transition-transform',
-              isOpen && 'animate-wiggle'
+              'h-4 w-4 transition-all duration-200',
+              unreadCount > 0 && 'text-foreground'
             )}
           />
           {unreadCount > 0 && (
-            <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground animate-in zoom-in">
-              {unreadCount}
-            </span>
+            <>
+              {/* Ping animation */}
+              <span className="absolute right-0.5 top-0.5 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-rose-400 to-pink-500 animate-ping opacity-75" />
+              {/* Badge */}
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-1 text-[10px] font-semibold text-white shadow-lg shadow-rose-500/25 ring-2 ring-background">
+                {unreadCount}
+              </span>
+            </>
           )}
           <span className="sr-only">알림</span>
         </Button>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Search, FileText, Image, MoreHorizontal, Eye, Calendar } from 'lucide-react';
+import { Plus, Search, FileText, Image as ImageIcon, MoreHorizontal, Eye, Calendar } from 'lucide-react';
 import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -64,7 +64,7 @@ const contents = [
 
 const typeConfig = {
   notice: { label: '공지사항', icon: FileText, className: 'bg-blue-100 text-blue-700' },
-  banner: { label: '배너', icon: Image, className: 'bg-purple-100 text-purple-700' },
+  banner: { label: '배너', icon: ImageIcon, className: 'bg-purple-100 text-purple-700' },
   event: { label: '이벤트', icon: Calendar, className: 'bg-orange-100 text-orange-700' },
 };
 
@@ -144,7 +144,7 @@ export default function ContentsPage() {
                       {/* Thumbnail or Icon */}
                       <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-muted">
                         {content.thumbnail ? (
-                          <Image className="h-6 w-6 text-muted-foreground" />
+                          <ImageIcon className="h-6 w-6 text-muted-foreground" />
                         ) : (
                           <TypeIcon className="h-6 w-6 text-muted-foreground" />
                         )}

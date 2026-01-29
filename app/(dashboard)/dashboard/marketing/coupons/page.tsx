@@ -213,9 +213,6 @@ export default function CouponsPage() {
               const status = statusConfig[coupon.status];
               const type = typeConfig[coupon.type];
               const TypeIcon = type.icon;
-              const usageRate = coupon.totalIssued > 0
-                ? ((coupon.totalUsed / coupon.totalIssued) * 100).toFixed(1)
-                : 0;
 
               return (
                 <div

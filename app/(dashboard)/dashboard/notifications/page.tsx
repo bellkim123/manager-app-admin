@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Check, CheckCheck, Trash2, Settings } from 'lucide-react';
+import { Bell, CheckCheck, Settings } from 'lucide-react';
 import { Header, MainContent } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
