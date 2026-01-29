@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import {
   Bell,
@@ -99,6 +100,7 @@ const notificationColors = {
 
 export function Header({ title }: HeaderProps) {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const { isOpen, isHovered } = useSidebarStore();
   const showExpanded = isOpen || isHovered;
   const [notifications, setNotifications] = useState(initialNotifications);
@@ -143,7 +145,12 @@ export function Header({ title }: HeaderProps) {
         </div>
 
         {/* Theme Toggle */}
-        <Button variant="ghost" size="icon" className="h-9 w-9">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        >
           <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">테마 변경</span>
