@@ -44,6 +44,7 @@ import { cn } from '@/lib/utils';
 // 메뉴 목록 정의
 const menuItems = [
   { id: 'home', name: '홈', icon: Home, category: 'main' },
+  { id: 'brands', name: '브랜드 관리', icon: Building2, category: 'main' },
   { id: 'stores', name: '매장 관리', icon: Store, category: 'main' },
   { id: 'owners', name: '점주 관리', icon: Users, category: 'main' },
   { id: 'orders', name: '주문 내역', icon: ShoppingCart, category: 'main' },
@@ -52,7 +53,6 @@ const menuItems = [
   { id: 'campaigns', name: '캠페인', icon: Megaphone, category: 'marketing' },
   { id: 'coupons', name: '쿠폰 관리', icon: Ticket, category: 'marketing' },
   { id: 'prepaid-cards', name: '선불카드', icon: CreditCard, category: 'marketing' },
-  { id: 'brands', name: '브랜드 관리', icon: Building2, category: 'admin' },
   { id: 'admins', name: '어드민 계정', icon: UserCog, category: 'admin' },
   { id: 'notifications', name: '알림', icon: Bell, category: 'system' },
   { id: 'settings', name: '설정', icon: Settings, category: 'system' },

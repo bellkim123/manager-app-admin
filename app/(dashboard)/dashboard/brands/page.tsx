@@ -7,12 +7,8 @@ import {
   Filter,
   MoreHorizontal,
   Building2,
-  Palette,
   Smartphone,
-  Globe,
   Settings2,
-  Check,
-  X,
   ChevronDown,
   ChevronUp,
   Copy,
@@ -33,82 +29,66 @@ import { cn } from '@/lib/utils';
 const brands = [
   {
     id: '1',
-    code: 'SOBOK001',
-    name: '소복소복 강남',
+    code: 'K0130000',
+    name: '매머드커피',
     status: 'active' as const,
-    storeCount: 24,
-    ownerCount: 18,
-    createdAt: '2023-01-15',
+    storeCount: 156,
+    ownerCount: 124,
+    createdAt: '2022-03-15',
     settings: {
-      primaryColor: '#4F46E5',
-      logo: '/images/logo.png',
-      appName: '소복소복 점주',
+      primaryColor: '#8B4513',
+      logo: '/images/mammoth-logo.png',
+      appName: '매머드커피 점주',
       pushEnabled: true,
-      orderNotification: true,
-      reviewNotification: true,
-      minimumOrderAmount: 10000,
-      deliveryFee: 3000,
-      operatingHours: '09:00 - 22:00',
+      operatingHours: '07:00 - 22:00',
     },
   },
   {
     id: '2',
-    code: 'COFFEE001',
-    name: '커피하우스',
+    code: 'K0340000',
+    name: '더 리터',
     status: 'active' as const,
-    storeCount: 56,
-    ownerCount: 42,
-    createdAt: '2023-03-20',
+    storeCount: 89,
+    ownerCount: 72,
+    createdAt: '2022-06-20',
     settings: {
-      primaryColor: '#7C3AED',
-      logo: '/images/coffee-logo.png',
-      appName: '커피하우스 파트너',
+      primaryColor: '#1E40AF',
+      logo: '/images/theliter-logo.png',
+      appName: '더 리터 파트너',
       pushEnabled: true,
-      orderNotification: true,
-      reviewNotification: false,
-      minimumOrderAmount: 8000,
-      deliveryFee: 2500,
-      operatingHours: '07:00 - 23:00',
+      operatingHours: '08:00 - 23:00',
     },
   },
   {
     id: '3',
-    code: 'BAKERY001',
-    name: '달콤베이커리',
+    code: 'K0720000',
+    name: '오크베리',
     status: 'active' as const,
-    storeCount: 12,
-    ownerCount: 10,
-    createdAt: '2023-06-10',
+    storeCount: 45,
+    ownerCount: 38,
+    createdAt: '2023-01-10',
     settings: {
-      primaryColor: '#F59E0B',
-      logo: '/images/bakery-logo.png',
-      appName: '달콤베이커리 사장님',
+      primaryColor: '#7C3AED',
+      logo: '/images/oakberry-logo.png',
+      appName: '오크베리 사장님',
       pushEnabled: true,
-      orderNotification: true,
-      reviewNotification: true,
-      minimumOrderAmount: 15000,
-      deliveryFee: 4000,
-      operatingHours: '08:00 - 20:00',
+      operatingHours: '10:00 - 22:00',
     },
   },
   {
     id: '4',
-    code: 'TEST001',
-    name: '테스트 브랜드',
-    status: 'inactive' as const,
-    storeCount: 0,
-    ownerCount: 0,
-    createdAt: '2024-01-20',
+    code: 'K0570000',
+    name: '하삼동커피',
+    status: 'active' as const,
+    storeCount: 203,
+    ownerCount: 178,
+    createdAt: '2021-11-05',
     settings: {
-      primaryColor: '#6B7280',
-      logo: '',
-      appName: '테스트 앱',
-      pushEnabled: false,
-      orderNotification: false,
-      reviewNotification: false,
-      minimumOrderAmount: 0,
-      deliveryFee: 0,
-      operatingHours: '00:00 - 24:00',
+      primaryColor: '#DC2626',
+      logo: '/images/hasamdong-logo.png',
+      appName: '하삼동커피 점주',
+      pushEnabled: true,
+      operatingHours: '06:00 - 24:00',
     },
   },
 ];
@@ -285,7 +265,7 @@ export default function BrandsPage() {
                   {/* Expanded Settings */}
                   {isExpanded && (
                     <div className="border-t bg-muted/30 p-4">
-                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                      <div className="grid gap-6 md:grid-cols-2">
                         {/* 앱 기본 설정 */}
                         <div className="space-y-4">
                           <h4 className="font-medium flex items-center gap-2">
@@ -328,46 +308,6 @@ export default function BrandsPage() {
                                 brand.settings.pushEnabled ? 'text-green-600' : 'text-gray-400'
                               )}>
                                 {brand.settings.pushEnabled ? '활성' : '비활성'}
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-muted-foreground">주문 알림</span>
-                              <span className={cn(
-                                'text-sm font-medium',
-                                brand.settings.orderNotification ? 'text-green-600' : 'text-gray-400'
-                              )}>
-                                {brand.settings.orderNotification ? '활성' : '비활성'}
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-muted-foreground">리뷰 알림</span>
-                              <span className={cn(
-                                'text-sm font-medium',
-                                brand.settings.reviewNotification ? 'text-green-600' : 'text-gray-400'
-                              )}>
-                                {brand.settings.reviewNotification ? '활성' : '비활성'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* 주문 설정 */}
-                        <div className="space-y-4">
-                          <h4 className="font-medium flex items-center gap-2">
-                            <Globe className="h-4 w-4" />
-                            주문 설정
-                          </h4>
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-muted-foreground">최소 주문금액</span>
-                              <span className="text-sm font-medium">
-                                {brand.settings.minimumOrderAmount.toLocaleString()}원
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-muted-foreground">기본 배달비</span>
-                              <span className="text-sm font-medium">
-                                {brand.settings.deliveryFee.toLocaleString()}원
                               </span>
                             </div>
                           </div>

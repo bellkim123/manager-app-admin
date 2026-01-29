@@ -36,6 +36,7 @@ import {
 
 const mainNavItems = [
   { title: '홈', href: '/dashboard', icon: Home },
+  { title: '브랜드 관리', href: '/dashboard/brands', icon: Building2 },
   { title: '매장 관리', href: '/dashboard/stores', icon: Store },
   { title: '점주 관리', href: '/dashboard/owners', icon: Users },
   { title: '주문 내역', href: '/dashboard/orders', icon: ShoppingCart },
@@ -50,7 +51,6 @@ const marketingNavItems = [
 ];
 
 const adminNavItems = [
-  { title: '브랜드 관리', href: '/dashboard/brands', icon: Building2 },
   { title: '어드민 계정', href: '/dashboard/admins', icon: UserCog },
 ];
 
